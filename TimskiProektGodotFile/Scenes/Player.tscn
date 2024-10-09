@@ -1,18 +1,71 @@
-[gd_scene load_steps=9 format=3 uid="uid://deaplj5f6o11q"]
+[gd_scene load_steps=21 format=3 uid="uid://deaplj5f6o11q"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_hnim0"]
 [ext_resource type="Texture2D" uid="uid://bm5lwij12ac4q" path="res://Assets/Sprites/Samurai/Walk/Walk1.png" id="1_t7lqk"]
 [ext_resource type="Texture2D" uid="uid://ig587ixknt2f" path="res://Assets/Sprites/Samurai/Walk/Walk2.png" id="2_uci36"]
+[ext_resource type="Texture2D" uid="uid://dw1ux8lfpi2rg" path="res://Assets/Sprites/Samurai/Jump/Jump1.png" id="2_v1xke"]
+[ext_resource type="Texture2D" uid="uid://dlwknhvjjy1s" path="res://Assets/Sprites/Samurai/Idle/Idle1.png" id="2_yb5pr"]
+[ext_resource type="Texture2D" uid="uid://bvla67c8sa46p" path="res://Assets/Sprites/Samurai/Idle/Idle2.png" id="3_2xor4"]
 [ext_resource type="Texture2D" uid="uid://c06ih27g7vsly" path="res://Assets/Sprites/Samurai/Walk/Walk3.png" id="3_4e4to"]
+[ext_resource type="Texture2D" uid="uid://ddgjhr4alf6ko" path="res://Assets/Sprites/Samurai/Jump/Jump2.png" id="3_gs2tx"]
 [ext_resource type="Texture2D" uid="uid://db3ofk3ll7i58" path="res://Assets/Sprites/Samurai/Walk/Walk4.png" id="4_0xb1j"]
+[ext_resource type="Texture2D" uid="uid://bxdlggrdvkk6s" path="res://Assets/Sprites/Samurai/Idle/Idle3.png" id="4_0yj1x"]
+[ext_resource type="Texture2D" uid="uid://nbvrjdv4k13d" path="res://Assets/Sprites/Samurai/Jump/Jump3.png" id="4_61d7p"]
 [ext_resource type="Texture2D" uid="uid://c8gux1dbr7m22" path="res://Assets/Sprites/Samurai/Walk/Walk5.png" id="5_8sg5b"]
+[ext_resource type="Texture2D" uid="uid://bruvry4aap47c" path="res://Assets/Sprites/Samurai/Idle/Idle4.png" id="5_18v8l"]
+[ext_resource type="Texture2D" uid="uid://bhwjhh7cl2vu2" path="res://Assets/Sprites/Samurai/Jump/Jump4.png" id="5_p3ff4"]
+[ext_resource type="Texture2D" uid="uid://cp5vk4klsvirp" path="res://Assets/Sprites/Samurai/Jump/Jump5.png" id="6_7npta"]
+[ext_resource type="Texture2D" uid="uid://cg31rbmii8dth" path="res://Assets/Sprites/Samurai/Idle/Idle5.png" id="6_hmywa"]
+[ext_resource type="Texture2D" uid="uid://dh7c7ry5jpl46" path="res://Assets/Sprites/Samurai/Jump/Jump6.png" id="7_r8jv7"]
+[ext_resource type="Texture2D" uid="uid://c0nyq7rpwcnra" path="res://Assets/Sprites/Samurai/Jump/Jump7.png" id="8_rlta8"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ptusi"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yb5pr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2xor4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0yj1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_18v8l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_hmywa")
+}],
 "loop": true,
-"name": &"new_animation_1",
-"speed": 5.0
+"name": &"idle",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v1xke")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gs2tx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_61d7p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p3ff4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_7npta")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_r8jv7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rlta8")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -44,8 +97,6 @@ script = ExtResource("1_hnim0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ptusi")
-animation = &"walk"
-frame_progress = 0.665938
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 8)
