@@ -57,8 +57,15 @@ func update_animations(input_axis):
 		#flip direction if action pressed
 		if(Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
 			animated_sprite_2d.flip_h = (input_axis < 0)	
-		if velocity.y != 0.0:
+		elif velocity.y < 0.0:
+			#handle double jump if too soon pressed
+			if animated_sprite_2d.is_playing() and Input.is_action_just_pressed("jump"):
+				animated_sprite_2d.stop()
+				animated_sprite_2d.play("jump")
 			animated_sprite_2d.play("jump")
+		#falling
+		elif velocity.y > 0.0:
+			animated_sprite_2d.play("fall")
 	elif is_on_floor() and input_axis !=0:
 		animated_sprite_2d.flip_h = (input_axis < 0)
 		animated_sprite_2d.play("walk")	
