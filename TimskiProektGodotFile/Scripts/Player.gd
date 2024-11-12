@@ -7,6 +7,7 @@ const ACCELERATION = 1200.0
 const AIR_ACCELERATION = 600.0
 const FRICTION = 2000.0
 var air_jump = false
+const AIR_RESISTANCE = 1500.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -16,7 +17,8 @@ func _physics_process(delta):
 	apply_gravity(delta)
 	var input_axis = Input.get_axis("walk_left", "walk_right")
 	handle_jump()
-	handle_acceleration(input_axis, delta)
+	handle_acceleration(input_axis, delta)	
+	handle_air_acceleration(input_axis, delta)
 	apply_friction(input_axis, delta)
 	update_animations(input_axis)
 	apply_air_resistance(input_axis, delta)
@@ -54,7 +56,7 @@ func apply_friction(input_axis, delta):
 		velocity.x = move_toward(velocity.x, 0,  FRICTION * delta)
 func apply_air_resistance(input_axis, delta):
 	if input_axis == 0 and not is_on_floor():
-		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+		velocity.x = move_toward(velocity.x, 0, AIR_RESISTANCE * delta)
 
 		
 func update_animations(input_axis):
