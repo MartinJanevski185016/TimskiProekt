@@ -19,6 +19,7 @@ func _physics_process(delta):
 	handle_acceleration(input_axis, delta)
 	apply_friction(input_axis, delta)
 	update_animations(input_axis)
+	apply_air_resistance(input_axis, delta)
 	move_and_slide()
 
 func apply_gravity(delta):
@@ -51,6 +52,10 @@ func handle_air_acceleration(input_axis, delta):
 func apply_friction(input_axis, delta):
 	if input_axis == 0 and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0,  FRICTION * delta)
+func apply_air_resistance(input_axis, delta):
+	if input_axis == 0 and not is_on_floor():
+		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+
 		
 func update_animations(input_axis):
 	if not is_on_floor(): 
