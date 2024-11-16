@@ -120,3 +120,6 @@ frame_progress = 0.0490145
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 8)
 shape = SubResource("CapsuleShape2D_h5s83")
+
+[node name="CoyoteJump Timer" type="Timer" parent="."]
+wait_time = 0.2
