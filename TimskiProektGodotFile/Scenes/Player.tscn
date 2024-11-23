@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://deaplj5f6o11q"]
+[gd_scene load_steps=27 format=3 uid="uid://deaplj5f6o11q"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_hnim0"]
 [ext_resource type="Texture2D" uid="uid://bm5lwij12ac4q" path="res://Assets/Sprites/Samurai/Walk/Walk1.png" id="1_t7lqk"]
@@ -21,6 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://cg31rbmii8dth" path="res://Assets/Sprites/Samurai/Idle/Idle5.png" id="6_hmywa"]
 [ext_resource type="Texture2D" uid="uid://dh7c7ry5jpl46" path="res://Assets/Sprites/Samurai/Jump/Jump6.png" id="7_r8jv7"]
 [ext_resource type="Texture2D" uid="uid://c0nyq7rpwcnra" path="res://Assets/Sprites/Samurai/Jump/Jump7.png" id="8_rlta8"]
+[ext_resource type="Texture2D" uid="uid://dkj2yxp0twd5x" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls3.png" id="22_f6lof"]
+[ext_resource type="Texture2D" uid="uid://dt2alofqj18v3" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls4.png" id="23_b3i72"]
+[ext_resource type="Texture2D" uid="uid://6e2xwnql4m06" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls5.png" id="24_giguo"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ptusi"]
 animations = [{
@@ -103,6 +106,20 @@ animations = [{
 "loop": true,
 "name": &"walk",
 "speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_f6lof")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_b3i72")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_giguo")
+}],
+"loop": true,
+"name": &"wall_fall",
+"speed": 9.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h5s83"]
@@ -114,8 +131,9 @@ script = ExtResource("1_hnim0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ptusi")
-animation = &"fall"
-frame_progress = 0.0490145
+animation = &"wall_fall"
+frame = 1
+frame_progress = 0.106556
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 8)
