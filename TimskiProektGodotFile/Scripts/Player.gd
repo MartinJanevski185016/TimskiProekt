@@ -8,7 +8,7 @@ const AIR_ACCELERATION = 600.0
 const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
 var air_jump = false
-
+var just_wall_jumped = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -16,6 +16,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _physics_process(delta):
 	apply_gravity(delta)
+	handle_wall_jump()
 	handle_jump()
 	var input_axis = Input.get_axis("walk_left", "walk_right")
 	handle_acceleration(input_axis, delta)
@@ -37,7 +38,9 @@ func handle_wall_jump():
 	if not is_on_wall_only(): return
 	var wall_normal = get_wall_normal()
 	if Input.is_action_just_pressed("jump") and is_on_wall_only():
-			velocity.x = wall_normal.x * SPEED
+		velocity.x = wall_normal.x * SPEED
+		velocity.y = JUMP_VELOCITY
+		just_wall_jumped = true
 	
 func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
