@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://du04fckuaqv8"]
+[gd_scene load_steps=6 format=3 uid="uid://du04fckuaqv8"]
 
 [ext_resource type="Texture2D" uid="uid://c3stfusrxdg63" path="res://Assets/Backgrounds/Bg-large-preview.png" id="1_ef5r7"]
 [ext_resource type="PackedScene" uid="uid://deaplj5f6o11q" path="res://Scenes/Player.tscn" id="2_c5k0c"]
@@ -9,6 +9,9 @@ size = Vector2(21181, 164)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3mcpf"]
 size = Vector2(229, 44)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ymyp"]
+size = Vector2(76.5, 730.5)
+
 [node name="Level" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -17,7 +20,7 @@ texture = ExtResource("1_ef5r7")
 
 [node name="Floor" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="Floor" type="CollisionShape2D" parent="Floor"]
 position = Vector2(10531.5, 570)
 shape = SubResource("RectangleShape2D_va8ww")
 
@@ -28,6 +31,18 @@ shape = SubResource("RectangleShape2D_3mcpf")
 [node name="TestPlatform2" type="CollisionShape2D" parent="Floor"]
 position = Vector2(759, 275)
 shape = SubResource("RectangleShape2D_3mcpf")
+
+[node name="Wall" type="CollisionShape2D" parent="Floor"]
+position = Vector2(1185, -103)
+shape = SubResource("RectangleShape2D_0ymyp")
+
+[node name="Wall2" type="CollisionShape2D" parent="Floor"]
+position = Vector2(2225, -123)
+shape = SubResource("RectangleShape2D_0ymyp")
+
+[node name="Wall3" type="CollisionShape2D" parent="Floor"]
+position = Vector2(1717, 163)
+shape = SubResource("RectangleShape2D_0ymyp")
 
 [node name="Player" parent="." instance=ExtResource("2_c5k0c")]
 position = Vector2(407, 413)
