@@ -46,3 +46,11 @@ shape = SubResource("RectangleShape2D_0ymyp")
 
 [node name="Player" parent="." instance=ExtResource("2_c5k0c")]
 position = Vector2(407, 413)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-407, -413)
+limit_left = -17
+limit_top = -100
+limit_right = 21102
+limit_bottom = 653
+editor_draw_limits = true
