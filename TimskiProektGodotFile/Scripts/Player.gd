@@ -9,6 +9,7 @@ const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
 var air_jump = false
 var just_wall_jumped = false
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -29,7 +30,7 @@ func _physics_process(delta):
 	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 	if just_left_ledge:
 		coyote_jump_timer.start()
-	just_wall_jumped = false;
+	just_wall_jumped = false
 	
 func apply_gravity(delta):
 	if not is_on_floor():
@@ -78,7 +79,11 @@ func update_animations(input_axis):
 	if not is_on_floor(): 
 		#flip direction if action pressed
 		if(Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
-			animated_sprite_2d.flip_h = (input_axis < 0)	
+			animated_sprite_2d.flip_h = (input_axis < 0)
+	#jumping and walking
+		if is_on_wall_only() and (Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
+			animated_sprite_2d.play("wall_fall")
+		#jump up
 		elif velocity.y < 0.0:
 			#handle double jump if too soon pressed
 			if animated_sprite_2d.is_playing() and Input.is_action_just_pressed("jump"):
@@ -88,8 +93,10 @@ func update_animations(input_axis):
 		#falling
 		elif velocity.y > 0.0:
 			animated_sprite_2d.play("fall")
+	
 	elif is_on_floor() and input_axis !=0:
 		animated_sprite_2d.flip_h = (input_axis < 0)
-		animated_sprite_2d.play("walk")	
+		animated_sprite_2d.play("walk")
 	else:
 		animated_sprite_2d.play("idle")
+
