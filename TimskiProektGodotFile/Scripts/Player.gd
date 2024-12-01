@@ -14,6 +14,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var coyote_jump_timer = $"CoyoteJump Timer"
+@onready var dash_timer = $"Dash Timer"
 
 func _physics_process(delta):
 	apply_gravity(delta)
@@ -35,7 +36,10 @@ func _physics_process(delta):
 func apply_gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
+	
+func handle_dash(input_axis):
+	dash_timer.start(0.2)
+	
 func handle_wall_jump():
 	if not is_on_wall_only(): return
 	var wall_normal = get_wall_normal()
@@ -99,4 +103,7 @@ func update_animations(input_axis):
 		animated_sprite_2d.play("walk")
 	else:
 		animated_sprite_2d.play("idle")
-
+	
+	
+func on_dash_timer_timeout():
+	dash_timer.stop();
