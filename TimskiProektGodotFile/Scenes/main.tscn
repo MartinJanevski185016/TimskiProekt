@@ -37,20 +37,20 @@ position = Vector2(1185, -103)
 shape = SubResource("RectangleShape2D_0ymyp")
 
 [node name="Wall2" type="CollisionShape2D" parent="Floor"]
-position = Vector2(2225, -123)
+position = Vector2(1908, -129)
 shape = SubResource("RectangleShape2D_0ymyp")
 
 [node name="Wall3" type="CollisionShape2D" parent="Floor"]
-position = Vector2(1717, 163)
+position = Vector2(1574, 166)
 shape = SubResource("RectangleShape2D_0ymyp")
 
 [node name="Player" parent="." instance=ExtResource("2_c5k0c")]
-position = Vector2(407, 413)
+position = Vector2(444, 428)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(-407, -413)
+position = Vector2(3, 5)
 limit_left = -17
-limit_top = -100
+limit_top = -425
 limit_right = 21102
 limit_bottom = 653
 editor_draw_limits = true
