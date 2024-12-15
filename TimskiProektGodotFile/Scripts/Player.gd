@@ -9,7 +9,7 @@ const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
 var air_jump = false
 var just_wall_jumped = false
-
+var dash= false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -21,6 +21,7 @@ func _physics_process(delta):
 	handle_wall_jump()
 	handle_jump()
 	var input_axis = Input.get_axis("walk_left", "walk_right")
+	handle_dash(input_axis)
 	handle_acceleration(input_axis, delta)
 	handle_air_acceleration(input_axis, delta)
 	apply_friction(input_axis, delta)
@@ -38,7 +39,9 @@ func apply_gravity(delta):
 		velocity.y += gravity * delta
 	
 func handle_dash(input_axis):
+	dash = true
 	dash_timer.start(0.2)
+	velocity.x = SPEED * input_axis
 	
 func handle_wall_jump():
 	if not is_on_wall_only(): return
@@ -107,3 +110,4 @@ func update_animations(input_axis):
 	
 func on_dash_timer_timeout():
 	dash_timer.stop();
+	dash = false
