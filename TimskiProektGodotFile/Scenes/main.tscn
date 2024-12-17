@@ -54,5 +54,3 @@ limit_top = -425
 limit_right = 21102
 limit_bottom = 653
 editor_draw_limits = true
-
-[node name="Dash Timer" type="Timer" parent="Player"]

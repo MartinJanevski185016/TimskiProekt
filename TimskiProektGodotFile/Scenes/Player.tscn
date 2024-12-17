@@ -141,3 +141,8 @@ shape = SubResource("CapsuleShape2D_h5s83")
 
 [node name="CoyoteJump Timer" type="Timer" parent="."]
 wait_time = 0.2
+
+[node name="Dash Timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="Dash Timer" to="." method="_on_dash_timer_timeout"]

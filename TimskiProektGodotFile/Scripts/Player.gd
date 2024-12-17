@@ -108,6 +108,6 @@ func update_animations(input_axis):
 		animated_sprite_2d.play("idle")
 	
 	
-func on_dash_timer_timeout():
+func _on_dash_timer_timeout():
 	dash_timer.stop();
 	dash = false
