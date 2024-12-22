@@ -7,11 +7,14 @@
 [node name="StaminaBar" type="TextureProgressBar"]
 offset_right = 40.0
 offset_bottom = 40.0
-texture_over = ExtResource("1_cifx3")
-texture_progress = ExtResource("2_3gq5r")
+texture_under = ExtResource("2_3gq5r")
+texture_progress = ExtResource("1_cifx3")
 script = ExtResource("3_taw7v")
 
 [node name="ShowHideTimer" type="Timer" parent="."]
 wait_time = 1.5
 
+[node name="LowStaminaBarTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="ShowHideTimer" to="." method="_on_show_hide_timer_timeout"]
+[connection signal="timeout" from="LowStaminaBarTimer" to="." method="_on_low_stamina_bar_timer_timeout"]
