@@ -10,7 +10,8 @@ const AIR_RESISTANCE = 1500.0
 var air_jump = false
 var just_wall_jumped = false
 var dash = false
-
+var color = self.modulate
+var original_scale = scale
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -48,6 +49,7 @@ func handle_dash(input_axis):
 		dash_timer.start(0.2)
 	elif((Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")) and stamina_bar.is_exhausted(stamina_bar.dash_drain)):
 		stamina_bar.low_stamina_effect()
+		low_stamina_player()
 	
 func handle_wall_jump():
 	if not is_on_wall_only(): return
@@ -59,6 +61,7 @@ func handle_wall_jump():
 			just_wall_jumped = true
 	elif(Input.is_action_just_pressed("jump") and stamina_bar.is_exhausted(stamina_bar.wall_jump_drain)):
 		stamina_bar.low_stamina_effect()
+		low_stamina_player()
 				
 func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
@@ -68,6 +71,7 @@ func handle_jump():
 			velocity.y = JUMP_VELOCITY
 		elif(Input.is_action_just_pressed("jump") and stamina_bar.is_exhausted(stamina_bar.jump_drain)):
 			stamina_bar.low_stamina_effect()
+			low_stamina_player()
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y <  JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
@@ -78,6 +82,7 @@ func handle_jump():
 			air_jump = false		
 		elif(Input.is_action_just_pressed("jump") and stamina_bar.is_exhausted(stamina_bar.jump_drain)):
 			stamina_bar.low_stamina_effect()
+			low_stamina_player()
 			
 func handle_acceleration(input_axis, delta):
 	if not is_on_floor(): return
@@ -122,7 +127,14 @@ func update_animations(input_axis):
 		animated_sprite_2d.play("walk")
 	else:
 		animated_sprite_2d.play("idle")
-		
+
+func low_stamina_player():
+	create_tween().tween_property(self, 'modulate', Color.DIM_GRAY, 0.1)
+	create_tween().tween_property(self, "scale", scale * 1.2, 0.3)
+	await get_tree().create_timer(0.1).timeout
+	create_tween().tween_property(self, 'modulate', color, 0.1)
+	create_tween().tween_property(self, "scale", original_scale, 0.3)	
+
 func _on_dash_timer_timeout():
 	dash_timer.stop()
 	dash = false
