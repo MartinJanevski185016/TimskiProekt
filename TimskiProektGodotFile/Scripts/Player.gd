@@ -9,7 +9,7 @@ const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
 var air_jump = false
 var just_wall_jumped = false
-var dash = false
+var dash_orientation
 var color = self.modulate
 var original_scale = scale
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -42,11 +42,10 @@ func apply_gravity(delta):
 		velocity.y += gravity * delta
 	
 func handle_dash(input_axis):
-	if not dash and input_axis != 0 and (Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")  and not stamina_bar.is_exhausted(stamina_bar.dash_drain)):
+	if dash_timer.is_stopped() and input_axis != 0 and (Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")  and not stamina_bar.is_exhausted(stamina_bar.dash_drain)):
 		stamina_bar.calculate_stamina(stamina_bar.dash_drain)
-		dash = true
 		velocity.x = SPEED * input_axis
-		dash_timer.start(0.2)
+		dash_timer.start()
 	elif((Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")) and stamina_bar.is_exhausted(stamina_bar.dash_drain)):
 		stamina_bar.low_stamina_effect()
 		low_stamina_player()
@@ -103,30 +102,36 @@ func apply_air_resistance(input_axis, delta):
 		velocity.x = move_toward(velocity.x, 0, AIR_RESISTANCE * delta)
 		
 func update_animations(input_axis):
-	
-	if not is_on_floor(): 
-		#flip direction if action pressed
-		if(Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
+	if(dash_timer.is_stopped()):
+		if is_on_floor() and input_axis !=0:
 			animated_sprite_2d.flip_h = (input_axis < 0)
-	#jumping and walking
-		if is_on_wall_only() and (Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
-			animated_sprite_2d.play("wall_fall")
-		#jump up
-		elif velocity.y < 0.0:
-			#handle double jump if too soon pressed
-			if animated_sprite_2d.is_playing() and Input.is_action_just_pressed("jump"):
-				animated_sprite_2d.stop()
+			animated_sprite_2d.play("walk")
+		elif not is_on_floor(): 
+			#flip direction if action pressed
+			if(Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
+				animated_sprite_2d.flip_h = (input_axis < 0)
+		#jumping and walking
+			if is_on_wall_only() and (Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
+				animated_sprite_2d.play("wall_fall")
+			#jump up
+			elif velocity.y < 0.0:
+				#handle double jump if too soon pressed
+				if animated_sprite_2d.is_playing() and Input.is_action_just_pressed("jump"):
+					animated_sprite_2d.stop()
+					animated_sprite_2d.play("jump")
 				animated_sprite_2d.play("jump")
-			animated_sprite_2d.play("jump")
-		#falling
-		elif velocity.y > 0.0:
-			animated_sprite_2d.play("fall")
-	
-	elif is_on_floor() and input_axis !=0:
-		animated_sprite_2d.flip_h = (input_axis < 0)
-		animated_sprite_2d.play("walk")
+			#falling
+			elif velocity.y > 0.0:
+				animated_sprite_2d.play("fall")
+		else:
+			if(Input.is_action_just_pressed("jump") and stamina_bar.is_exhausted(stamina_bar.jump_drain)):
+				low_stamina_player()
+			animated_sprite_2d.play("idle")
 	else:
-		animated_sprite_2d.play("idle")
+		if(Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")):
+			dash_orientation = 	(input_axis < 0)
+		animated_sprite_2d.flip_h = dash_orientation
+		animated_sprite_2d.play("dash")
 
 func low_stamina_player():
 	create_tween().tween_property(self, 'modulate', Color.DIM_GRAY, 0.1)
@@ -137,4 +142,3 @@ func low_stamina_player():
 
 func _on_dash_timer_timeout():
 	dash_timer.stop()
-	dash = false

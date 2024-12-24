@@ -1,12 +1,14 @@
-[gd_scene load_steps=27 format=3 uid="uid://deaplj5f6o11q"]
+[gd_scene load_steps=36 format=3 uid="uid://deaplj5f6o11q"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_hnim0"]
 [ext_resource type="Texture2D" uid="uid://bm5lwij12ac4q" path="res://Assets/Sprites/Samurai/Walk/Walk1.png" id="1_t7lqk"]
 [ext_resource type="Texture2D" uid="uid://dhg7hpmt3lb1e" path="res://Assets/Sprites/Samurai/Fall/Fall1.png" id="2_c8mpa"]
+[ext_resource type="Texture2D" uid="uid://cts04y6s06op8" path="res://Assets/Sprites/Samurai/Dash/Dash1.png" id="2_h6q6c"]
 [ext_resource type="Texture2D" uid="uid://ig587ixknt2f" path="res://Assets/Sprites/Samurai/Walk/Walk2.png" id="2_uci36"]
 [ext_resource type="Texture2D" uid="uid://dw1ux8lfpi2rg" path="res://Assets/Sprites/Samurai/Jump/Jump1.png" id="2_v1xke"]
 [ext_resource type="Texture2D" uid="uid://dlwknhvjjy1s" path="res://Assets/Sprites/Samurai/Idle/Idle1.png" id="2_yb5pr"]
 [ext_resource type="Texture2D" uid="uid://bvla67c8sa46p" path="res://Assets/Sprites/Samurai/Idle/Idle2.png" id="3_2xor4"]
+[ext_resource type="Texture2D" uid="uid://b5gcxdwhr5em2" path="res://Assets/Sprites/Samurai/Dash/Dash2.png" id="3_3urdv"]
 [ext_resource type="Texture2D" uid="uid://c06ih27g7vsly" path="res://Assets/Sprites/Samurai/Walk/Walk3.png" id="3_4e4to"]
 [ext_resource type="Texture2D" uid="uid://ddgjhr4alf6ko" path="res://Assets/Sprites/Samurai/Jump/Jump2.png" id="3_gs2tx"]
 [ext_resource type="Texture2D" uid="uid://er34ub166dpx" path="res://Assets/Sprites/Samurai/Fall/Fall2.png" id="3_ls37e"]
@@ -14,19 +16,58 @@
 [ext_resource type="Texture2D" uid="uid://bxdlggrdvkk6s" path="res://Assets/Sprites/Samurai/Idle/Idle3.png" id="4_0yj1x"]
 [ext_resource type="Texture2D" uid="uid://bywkne0gnleq" path="res://Assets/Sprites/Samurai/Fall/Fall3.png" id="4_8uf2d"]
 [ext_resource type="Texture2D" uid="uid://nbvrjdv4k13d" path="res://Assets/Sprites/Samurai/Jump/Jump3.png" id="4_61d7p"]
+[ext_resource type="Texture2D" uid="uid://cs3m0tiojmynp" path="res://Assets/Sprites/Samurai/Dash/Dash3.png" id="4_yvc16"]
 [ext_resource type="Texture2D" uid="uid://c8gux1dbr7m22" path="res://Assets/Sprites/Samurai/Walk/Walk5.png" id="5_8sg5b"]
 [ext_resource type="Texture2D" uid="uid://bruvry4aap47c" path="res://Assets/Sprites/Samurai/Idle/Idle4.png" id="5_18v8l"]
 [ext_resource type="Texture2D" uid="uid://bhwjhh7cl2vu2" path="res://Assets/Sprites/Samurai/Jump/Jump4.png" id="5_p3ff4"]
+[ext_resource type="Texture2D" uid="uid://37w4uwja7ea" path="res://Assets/Sprites/Samurai/Dash/Dash4.png" id="5_vd60x"]
 [ext_resource type="Texture2D" uid="uid://cp5vk4klsvirp" path="res://Assets/Sprites/Samurai/Jump/Jump5.png" id="6_7npta"]
 [ext_resource type="Texture2D" uid="uid://cg31rbmii8dth" path="res://Assets/Sprites/Samurai/Idle/Idle5.png" id="6_hmywa"]
+[ext_resource type="Texture2D" uid="uid://c1tnjjmoibesx" path="res://Assets/Sprites/Samurai/Dash/Dash5.png" id="6_ngiaj"]
+[ext_resource type="Texture2D" uid="uid://dw1igufx4ly6i" path="res://Assets/Sprites/Samurai/Dash/Dash6.png" id="7_mc2hv"]
 [ext_resource type="Texture2D" uid="uid://dh7c7ry5jpl46" path="res://Assets/Sprites/Samurai/Jump/Jump6.png" id="7_r8jv7"]
+[ext_resource type="Texture2D" uid="uid://brkm67r4rbji4" path="res://Assets/Sprites/Samurai/Dash/Dash7.png" id="8_5vmb8"]
 [ext_resource type="Texture2D" uid="uid://c0nyq7rpwcnra" path="res://Assets/Sprites/Samurai/Jump/Jump7.png" id="8_rlta8"]
+[ext_resource type="Texture2D" uid="uid://dw22c6xmj3pas" path="res://Assets/Sprites/Samurai/Dash/Dash8.png" id="9_od5j3"]
+[ext_resource type="Texture2D" uid="uid://cmlyaspevk3y3" path="res://Assets/Sprites/Samurai/Dash/Dash9.png" id="10_rmu0y"]
 [ext_resource type="Texture2D" uid="uid://dkj2yxp0twd5x" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls3.png" id="22_f6lof"]
 [ext_resource type="Texture2D" uid="uid://dt2alofqj18v3" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls4.png" id="23_b3i72"]
 [ext_resource type="Texture2D" uid="uid://6e2xwnql4m06" path="res://Assets/Sprites/Samurai/WallFall/MircheskiDragDownWalls5.png" id="24_giguo"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ptusi"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_h6q6c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3urdv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yvc16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vd60x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ngiaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_mc2hv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5vmb8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_od5j3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_rmu0y")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 9.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_c8mpa")
