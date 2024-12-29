@@ -9,21 +9,27 @@ const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
 var air_jump = false
 var just_wall_jumped = false
+var is_crouching = false
 var dash_orientation
 var color = self.modulate
 var original_scale = scale
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var coyote_jump_timer = $"CoyoteJump Timer"
 @onready var dash_timer = $"Dash Timer"
 @onready var stamina_bar = $"../CanvasLayer/StaminaBar"
+@onready var player_shape = $PlayerShapeUncrouched
+@onready var player_shape_crouched = $PlayerShapeCrouched
+@onready var shape_cast_2d = $ShapeCast2D
 
 func _physics_process(delta):
 	apply_gravity(delta)
 	handle_wall_jump()
 	handle_jump()
 	var input_axis = Input.get_axis("walk_left", "walk_right")
+	handle_crouch()
 	handle_dash(input_axis)
 	handle_acceleration(input_axis, delta)
 	handle_air_acceleration(input_axis, delta)
@@ -42,7 +48,7 @@ func apply_gravity(delta):
 		velocity.y += gravity * delta
 	
 func handle_dash(input_axis):
-	if dash_timer.is_stopped() and input_axis != 0 and (Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")  and not stamina_bar.is_exhausted(stamina_bar.dash_drain)):
+	if dash_timer.is_stopped() and input_axis != 0 and (Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")) and not stamina_bar.is_exhausted(stamina_bar.dash_drain):
 		stamina_bar.calculate_stamina(stamina_bar.dash_drain)
 		velocity.x = SPEED * input_axis
 		dash_timer.start()
@@ -101,11 +107,34 @@ func apply_air_resistance(input_axis, delta):
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, AIR_RESISTANCE * delta)
 		
+func handle_crouch():
+	if is_on_floor() and Input.is_action_pressed("crouch") and not is_crouching:
+		player_shape.disabled = true
+		player_shape_crouched.disabled = false
+		is_crouching = true
+	elif is_crouching:
+		if Input.is_action_just_released("crouch"):
+			attempt_uncrouch()
+		elif not Input.is_action_pressed("crouch"):
+			attempt_uncrouch()
+			
+func attempt_uncrouch():
+	if not shape_cast_2d.is_colliding():
+		player_shape.disabled = false
+		player_shape_crouched.disabled = true
+		is_crouching = false
+		
+
 func update_animations(input_axis):
+	
 	if(dash_timer.is_stopped()):
 		if is_on_floor() and input_axis !=0:
-			animated_sprite_2d.flip_h = (input_axis < 0)
-			animated_sprite_2d.play("walk")
+			if(not is_crouching):
+				animated_sprite_2d.flip_h = (input_axis < 0)
+				animated_sprite_2d.play("walk")
+			else:
+				animated_sprite_2d.flip_h = (input_axis < 0)
+				animated_sprite_2d.play("crouch")
 		elif not is_on_floor(): 
 			#flip direction if action pressed
 			if(Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
@@ -124,21 +153,23 @@ func update_animations(input_axis):
 			elif velocity.y > 0.0:
 				animated_sprite_2d.play("fall")
 		else:
-			if(Input.is_action_just_pressed("jump") and stamina_bar.is_exhausted(stamina_bar.jump_drain)):
-				low_stamina_player()
-			animated_sprite_2d.play("idle")
+			if (not is_crouching):
+				animated_sprite_2d.play("idle")
+			else:
+				animated_sprite_2d.play("crouch_idle")
 	else:
 		if(Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")):
 			dash_orientation = 	(input_axis < 0)
 		animated_sprite_2d.flip_h = dash_orientation
 		animated_sprite_2d.play("dash")
-
+		
 func low_stamina_player():
 	create_tween().tween_property(self, 'modulate', Color.DIM_GRAY, 0.1)
 	create_tween().tween_property(self, "scale", scale * 1.2, 0.3)
 	await get_tree().create_timer(0.1).timeout
 	create_tween().tween_property(self, 'modulate', color, 0.1)
-	create_tween().tween_property(self, "scale", original_scale, 0.3)	
-
+	create_tween().tween_property(self, "scale", original_scale, 0.3)		
+	
 func _on_dash_timer_timeout():
 	dash_timer.stop()
+	
