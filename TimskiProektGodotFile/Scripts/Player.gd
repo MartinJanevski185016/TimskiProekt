@@ -7,6 +7,7 @@ const ACCELERATION = 1200.0
 const AIR_ACCELERATION = 600.0
 const FRICTION = 2000.0
 const AIR_RESISTANCE = 1500.0
+var WALL_SLIDE = 150.0
 var air_jump = false
 var just_wall_jumped = false
 var is_crouching = false
@@ -33,6 +34,7 @@ func _physics_process(delta):
 	handle_dash(input_axis)
 	handle_acceleration(input_axis, delta)
 	handle_air_acceleration(input_axis, delta)
+	handle_wall_hold(delta)
 	apply_friction(input_axis, delta)
 	apply_air_resistance(input_axis, delta)
 	update_animations(input_axis)
@@ -99,6 +101,11 @@ func handle_air_acceleration(input_axis, delta):
 	if input_axis != 0:
 		velocity.x = move_toward(velocity.x ,SPEED * input_axis, AIR_ACCELERATION * delta)
 
+func handle_wall_hold(delta):
+	if is_on_floor(): return
+	if is_on_wall_only() and (Input.is_action_pressed("walk_left") or Input.is_action_pressed("walk_right")):
+		velocity.y = move_toward(velocity.y, WALL_SLIDE, ACCELERATION * delta)
+		
 func apply_friction(input_axis, delta):
 	if input_axis == 0 and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0,  FRICTION * delta)
