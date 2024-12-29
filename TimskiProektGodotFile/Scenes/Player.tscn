@@ -242,4 +242,6 @@ position = Vector2(-10, -18)
 shape = SubResource("RectangleShape2D_v411k")
 target_position = Vector2(17, 0)
 
+[node name="CameraFollow" type="RemoteTransform2D" parent="."]
+
 [connection signal="timeout" from="Dash Timer" to="." method="_on_dash_timer_timeout"]

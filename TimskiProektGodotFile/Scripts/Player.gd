@@ -52,7 +52,7 @@ func apply_gravity(delta):
 func handle_dash(input_axis):
 	if dash_timer.is_stopped() and input_axis != 0 and (Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")) and not stamina_bar.is_exhausted(stamina_bar.dash_drain):
 		stamina_bar.calculate_stamina(stamina_bar.dash_drain)
-		velocity.x = SPEED * input_axis
+		velocity.x = 1000 * input_axis
 		dash_timer.start()
 	elif((Input.is_action_just_pressed("dash_left") or Input.is_action_just_pressed("dash_right")) and stamina_bar.is_exhausted(stamina_bar.dash_drain)):
 		stamina_bar.low_stamina_effect()
